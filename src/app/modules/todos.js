@@ -12,6 +12,8 @@ todos.factory('todos', [
   function(PouchDb) {
     var db = new PouchDb('todos');
 
+    var todoItems = [];
+
     return {
       create: function(data) {
         data.checked = false;
@@ -24,6 +26,10 @@ todos.factory('todos', [
             return results.rows.map(function(row) {
               return row.doc;
             });
+          })
+          .then(function(docs) {
+            todoItems = docs;
+            return docs;
           });
       },
       readOne: function(id) {
@@ -34,6 +40,9 @@ todos.factory('todos', [
       },
       delete: function(doc) {
         return db.remove(doc);
+      },
+      getTodos: function() {
+        return todoItems;
       },
     };
   },

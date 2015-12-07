@@ -14,9 +14,10 @@ todosController.controller('TodosController', [
   '$scope',
   '$state',
   '$stateParams',
+  '$q',
   'todos',
-  function($scope, $state, $stateParams, todos) {
-    $scope.todos = [];
+  function($scope, $state, $stateParams, $q, todos) {
+    $scope.todos = todos.getTodos();
 
     switch ($stateParams.status) {
       case '': $scope.statusFilter = {}; break;
@@ -53,6 +54,12 @@ todosController.controller('TodosController', [
       return $scope.todos.filter(function(todo) {
         return !todo.checked;
       }).length;
+    };
+
+    $scope.clearCompletedClickHandler = function() {
+      return $q.all($scope.todos.map(function(todo) {
+        return todos.delete(todo);
+      })).then(update);
     };
   },
 ]);
