@@ -1,0 +1,49 @@
+<div layout="column" layout-fill>
+
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <span>Material Todos</span>
+    </div>
+  </md-toolbar>
+
+  <md-content>
+    <div layout="row">
+      <div flex flex-offset-gt-sm="30">
+        <form ng-submit="addTodo(inputs.newTodo)" flex>
+          <md-input-container>
+            <label>What needs to be done?</label>
+            <input type="text" ng-model="inputs.newTodo.name" />
+          </md-input-container>
+        </form>
+        <md-list class="md-whiteframe-1dp" ng-show="todos.length">
+          <!-- Todo List -->
+          <md-list-item ng-repeat="todo in todos | filter:statusFilter | orderBy:'created' track by todo._id">
+            <!-- HACK to prevent checkbox click from propogating up to list item -->
+            <!-- @see https://github.com/angular/material/issues/2819 -->
+            <div flex="10" ng-repeat="v in [0]">
+              <md-checkbox aria-label="{{ todo.checked ? 'Uncomplete' : 'Complete' }} Todo" ng-model="todo.checked" ng-change="changeTodoHandler(todo)"></md-checkbox>
+            </div>
+
+            <input-display flex="80" ng-model="todo.name" ng-change="changeTodoHandler(todo)" strikethrough="todo.checked"></input-display>
+
+            <md-icon class="md-secondary" aria-label="Delete Todo: {{ todo.name }}" ng-click="deleteClickHandler(todo)">delete</md-icon>
+
+          </md-list-item>
+          <!-- END Todo List -->
+        </md-list>
+
+        <p>
+          <ng-pluralize count="todosRemaining()" when="{'1': '{} item left', 'other': '{} items left'}"></ng-pluralize>
+          <!-- <span>
+            <a href="#/">All</a>
+            <a href="#/active">Active</a>
+            <a href="#/completed">Completed</a>
+          </span> -->
+        </p>
+      </div>
+      <span flex-gt-sm="30"></span>
+    </div>
+    <br />
+  </md-content>
+
+</div>

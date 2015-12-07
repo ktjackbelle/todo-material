@@ -1,0 +1,18 @@
+<div>
+  <form ng-submit="blurHandler()">
+    <label
+      class="input-display-label"
+      ng-class="{ strikethrough: strikethrough }"
+      ng-hide="showInput"
+      ng-dblclick="dblClickHandler()"
+      ng-bind="value"
+    ></label>
+    <input
+      type="text"
+      class="input-display-input"
+      ng-show="showInput"
+      ng-blur="blurHandler()"
+      ng-model="value"
+    />
+  </form>
+</div>
