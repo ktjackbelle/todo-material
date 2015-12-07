@@ -32,14 +32,14 @@
           <!-- END Todo List -->
         </md-list>
 
-        <p ng-show="todos.length">
-          <ng-pluralize count="todosRemaining()" when="{'1': '{} item left', 'other': '{} items left'}"></ng-pluralize>
-          <span>
+        <p ng-show="todos.length" layout="row" layout-align="center center">
+          <ng-pluralize flex="33" count="todosRemaining()" when="{'1': '{} item left', 'other': '{} items left'}"></ng-pluralize>
+          <span flex="33">
             <a href="#/">All</a>
             <a href="#/active">Active</a>
             <a href="#/completed">Completed</a>
           </span>
-          <md-button class="md-warn" ng-click="clearCompletedClickHandler()">Clear Completed</md-button>
+          <md-button flex="33" class="md-raised" ng-click="clearCompletedClickHandler()">Clear Completed</md-button>
         </p>
       </div>
       <span flex-gt-sm="30"></span>

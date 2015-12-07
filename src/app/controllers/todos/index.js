@@ -57,9 +57,12 @@ todosController.controller('TodosController', [
     };
 
     $scope.clearCompletedClickHandler = function() {
-      return $q.all($scope.todos.map(function(todo) {
-        return todos.delete(todo);
-      })).then(update);
+      return $q.all(
+        $scope.todos.reduce(function(promises, todo) {
+          if (todo.checked) { promises.push(todos.delete(todo)); }
+          return promises;
+        }, [])
+      ).then(update);
     };
   },
 ]);
