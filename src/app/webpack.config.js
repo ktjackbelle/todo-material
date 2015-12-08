@@ -1,11 +1,12 @@
 'use strict';
 
 var path = require('path');
+var webpack = require('webpack');
 
 module.exports = {
   context: __dirname,
   entry: './app',
-  devtool: 'sourcemap',
+  devtool: 'source-map',
   output: {
     path: path.resolve(__dirname, '..', '..', 'dist', 'js'),
     filename: 'app.js',
@@ -16,4 +17,7 @@ module.exports = {
       { test: /\.html$/, loader: 'html' },
     ],
   },
+  plugins: [
+    new webpack.optimize.UglifyJsPlugin(),
+  ],
 };
