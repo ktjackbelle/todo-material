@@ -9,15 +9,33 @@
   <md-content>
     <div layout="row">
       <div flex flex-offset-gt-sm="30">
+
+        <!-- Create Todo Form -->
+        <br />
         <form ng-submit="addTodo(inputs.newTodo)" flex>
           <md-input-container>
             <label>What needs to be done?</label>
             <input type="text" ng-model="inputs.newTodo.name" />
           </md-input-container>
         </form>
-        <md-list class="md-whiteframe-1dp" ng-show="todos.length">
-          <!-- Todo List -->
-          <md-list-item ng-repeat="todo in todos | filter:statusFilter | orderBy:'created' track by todo._id">
+        <!-- END Create Todo Form -->
+
+        <!-- Menu -->
+        <div ng-show="todos.length" layout="row" layout-align="center center">
+          <ng-pluralize flex="25" count="todosRemaining()" when="{'1': '{} item left', 'other': '{} items left'}"></ng-pluralize>
+          <span flex="40" class="filter-links">
+            <a flex active-link href="#/">All</a> |
+            <a flex active-link href="#/active">Active</a> |
+            <a flex active-link href="#/completed">Completed</a>
+          </span>
+          <md-button flex="35" class="md-raised" ng-click="clearCompletedClickHandler()">Clear Completed</md-button>
+        </div>
+        <br />
+        <!-- END Menu -->
+
+        <!-- Todo List -->
+        <md-list class="md-whiteframe-1dp" ng-show="filteredTodos.length">
+          <md-list-item ng-repeat="todo in todos | filter:statusFilter | orderBy:'created' as filteredTodos track by todo._id">
             <!-- HACK to prevent checkbox click from propogating up to list item -->
             <!-- @see https://github.com/angular/material/issues/2819 -->
             <div flex="10" ng-repeat="v in [0]">
@@ -29,18 +47,9 @@
             <md-icon class="md-secondary" aria-label="Delete Todo: {{ todo.name }}" ng-click="deleteClickHandler(todo)">delete</md-icon>
 
           </md-list-item>
-          <!-- END Todo List -->
         </md-list>
+        <!-- END Todo List -->
 
-        <p ng-show="todos.length" layout="row" layout-align="center center">
-          <ng-pluralize flex="33" count="todosRemaining()" when="{'1': '{} item left', 'other': '{} items left'}"></ng-pluralize>
-          <span flex="33">
-            <a href="#/">All</a>
-            <a href="#/active">Active</a>
-            <a href="#/completed">Completed</a>
-          </span>
-          <md-button flex="33" class="md-raised" ng-click="clearCompletedClickHandler()">Clear Completed</md-button>
-        </p>
       </div>
       <span flex-gt-sm="30"></span>
     </div>

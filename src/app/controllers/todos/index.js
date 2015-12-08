@@ -2,12 +2,16 @@
 
 var angular = require('angular');
 var todosService = require('../../modules/todos');
-var template = require('./template.html');
 var inputDisplay = require('../../directives/input-display');
+var activeLink = require('../../directives/active-link');
+var template = require('./template.html');
+
+require('./styles.css');
 
 var todosController = angular.module('TodosController', [
   todosService,
   inputDisplay,
+  activeLink,
 ]);
 
 todosController.controller('TodosController', [
@@ -15,8 +19,9 @@ todosController.controller('TodosController', [
   '$state',
   '$stateParams',
   '$q',
+  '$filter',
   'todos',
-  function($scope, $state, $stateParams, $q, todos) {
+  function($scope, $state, $stateParams, $q, $filter, todos) {
     $scope.todos = todos.getTodos();
 
     switch ($stateParams.status) {
